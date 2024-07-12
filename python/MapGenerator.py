@@ -76,20 +76,7 @@ class MapGenerator:
             Tf_Pos = Tf['Pos'] # --> Centroid Position
             St_Pos = St['Pos'] # --> Centroid Position
             Tf_DeltaPos = Tf['DeltaPos']
-            St_DeltaPos = St['DeltaPos']
-            
-            # Erase this later
-            if date == "2023-02-24" and tripNo == 24:
-                # Case 1
-                front = np.array([1,149,0])
-                back = TrajEventIntvs[3:,:]
-                merged = np.vstack((front,back))
-                
-                # Case 2
-                front = merged[0:-3,:]
-                back = np.array([865,1034,0])
-                TrajEventIntvs = np.vstack((front,back))
-                
+            St_DeltaPos = St['DeltaPos']              
 
             cpp_module = m.SingleTripAnalyzer(idxs, matched_idxs, vehicleParams, TrajEventIntvs, Tf_Pos, Tf_DeltaPos, St_Pos, St_DeltaPos)
 
