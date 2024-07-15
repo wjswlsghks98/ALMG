@@ -21,26 +21,39 @@ For a detailed understanding of our work, please refer to our paper.
 ## Getting Started
 Below are the required toolbox/libraries to run our simplified demos. If you just want to view the processed maps and figures, move to [pre-computed results](#results)
 You have to install all of the following in order to run the main script.
-* Tested on Ubuntu 20.04 (focal)
+* Tested on Ubuntu 20.04 (focal), MATLAB R2023a, Python 3.8.10
 
 ### MATLAB
-Install MATLAB R2023a or higher with following toolboxes: [Optimization Toolbox](https://kr.mathworks.com/products/optimization.html), [Statistics and Machine Learning Toolbox](https://kr.mathworks.com/products/statistics.html), [Mapping Toolbox](https://kr.mathworks.com/products/mapping.html), [Deep Learning Toolbox](https://kr.mathworks.com/products/deep-learning.html).
+Install MATLAB R2023a with following toolboxes: [Optimization Toolbox](https://kr.mathworks.com/products/optimization.html), [Statistics and Machine Learning Toolbox](https://kr.mathworks.com/products/statistics.html), [Mapping Toolbox](https://kr.mathworks.com/products/mapping.html), [Deep Learning Toolbox](https://kr.mathworks.com/products/deep-learning.html).
+
+> Be careful not to download R2024a or above. MATLAB Engine API for Python is not supported for python 3.8 for these [versions](https://kr.mathworks.com/support/requirements/python-compatibility.html).
 
 ### Python
 Install basic packages
 ```
 sudo apt-get install python3 python3-numpy python3-scipy python3-dev pybind11-dev
 ```
-Then, install MATLAB Engine API for Python using [Python Package Index](https://pypi.org/project/matlabengine/)
+Then, install MATLAB Engine API for Python using [Python Package Index](https://pypi.org/project/matlabengine/).
 
 > Architecture and training data of our implementation can be found in ```ALMG/model``` folder.
 
 ### C++ (Overall)
-*Step 0* : Install ROS of appropriate version and follow manual installation guide provided in in Lanelet2
+*Step 0.0* : Install ROS of appropriate version and follow manual installation guide provided in in Lanelet2
 ```
 sudo apt update
 sudo apt install ros-noetic-desktop-full
 sudo apt install ros-noetic-lanelet2
+```
+*Step 0.1* : Build with Catkin
+```
+source /opt/ros/noetic/setup.bash
+mkdir src && mkdir catkin_ws && cd catkin_ws
+catkin init
+catkin config --cmake-args -DCMAKE_BUILD_TYPE=RelWithDebInfo # build in release mode (or whatever you prefer)
+cd ../src
+git clone https://github.com/fzi-forschungszentrum-informatik/lanelet2.git
+cd ../catkin_ws
+catkin build
 ```
 
 *Step 1* : Install dependencies
@@ -68,6 +81,12 @@ cd build && cmake ..
 *Step 6* : Build Code
 ```
 make -j
+```
+
+*Step 7* : Run python sample code
+```
+cd ..
+python3 python/main.py
 ```
 
 > If there are errors regarding MATLAB C++ API, refer to this [link](https://kr.mathworks.com/help/matlab/calling-matlab-engine-from-cpp-programs.html?s_tid=CRUX_lftnav).
