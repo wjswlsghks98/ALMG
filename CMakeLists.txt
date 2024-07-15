@@ -2,10 +2,8 @@ cmake_minimum_required(VERSION 3.10)
 project(ALMG)
 
 find_package(Matlab REQUIRED)
-find_package(Boost REQUIRED)
 
 include_directories(${Matlab_INCLUDE_DIRS})
-include_directories(${Boost_INCLUDE_DIRS})
 link_directories(${Matlab_LIBRARY_DIRS})
 add_definitions(${Matlab_DEFINITIONS})
 
@@ -33,8 +31,7 @@ target_link_libraries(ALMG PUBLIC
                       lanelet2_projection
                       lanelet2_routing
                       lanelet2_traffic_rules
-                      ${Matlab_LIBRARIES}
-                      ${Boost_LIBRARIES})
+                      ${Matlab_LIBRARIES})
 set_target_properties(ALMG PROPERTIES
                       CXX_STANDARD 17
                       LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/python)
