@@ -1,14 +1,10 @@
 import os
-import sys
-import platform
-import datetime
 import pickle as pkl
 import scipy.io as sio
 import numpy as np
-from natsort import natsorted
 import matlab.engine
 
-# import research as m
+import ALMG as m
 
 class MapGenerator:
     """
@@ -93,7 +89,7 @@ class MapGenerator:
 
         Obtaining the position of regulatory elements will be presented in future works        
         """
-        with open(os.path.join(self.main_file_path,date,str(tripNo),featureType+".pkl"),'rb') as f:
+        with open(os.path.join(self.main_file_path,"data",date,str(tripNo),featureType+".pkl"),'rb') as f:
             data = pkl.load(f)
         
         return data

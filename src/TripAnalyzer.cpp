@@ -87,38 +87,6 @@ void SingleTripAnalyzer::addRegulatoryElementStateIdxs(int i, std::vector<int> i
         St_vector[i].setStateIdxs(idxs);    
 }
 
-void SingleTripAnalyzer::visualize(void)
-{   
-    using namespace matplot;
-    std::vector<double> x_tf, y_tf;
-    std::vector<double> x_st, y_st;
-    std::vector<double> vpos_x, vpos_y;
-
-    Eigen::MatrixXd vpos = vehicleParams_["Position"];
-    
-    for (int i=0;i<vpos.cols();i++)
-    {
-        Eigen::VectorXd column = vpos.col(i);
-        vpos_x.push_back(column[0]);
-        vpos_y.push_back(column[1]);
-    }
-
-    for (int i=0;i<Tf_vector.size();i++)
-    {
-        Eigen::Vector3d Tf_pos = Tf_vector[i].getLandmarkPos();
-        x_tf.push_back(Tf_pos.x());
-        y_tf.push_back(Tf_pos.y());
-    }
-
-    for (int i=0;i<St_vector.size();i++)
-    {
-        Eigen::Vector3d St_pos = St_vector[i].getLandmarkPos();
-        x_st.push_back(St_pos.x());
-        y_st.push_back(St_pos.y());
-    }
-
-}
-
 std::string SingleTripAnalyzer::run(void)
 {
     // std::cout << "Single Trip Map Generation in [Lanelet2] format" << std::endl;
@@ -323,7 +291,7 @@ std::string SingleTripAnalyzer::save(const std::unique_ptr<matlab::engine::MATLA
     std::ostringstream oss;
     oss << std::put_time(localTime, "%Y-%m-%d-%H-%M-%S");
     std::string curr_time = oss.str();
-    std::string fileName = "/OSM/" + curr_time + ".osm";
+    std::string fileName = "OSM/" + curr_time + ".osm";
     
     projection::LocalCartesianProjector projector(Origin({36.5222, 127.3032}));
     write(fileName, Map, projector);
@@ -528,7 +496,7 @@ void SingleTripAnalyzer::RA(std::vector<LineString3d> Tf_List, std::vector<LineS
         factory.createArray<double>({static_cast<size_t>(pos.rows()), static_cast<size_t>(pos.cols())}, pos.data(), pos.data() + pos.size()),
         factory.createArray<double>({2, 2},{5e-4, 0,0, 5e-4})
     });
-    matlab::data::TypedArray<double> const result = matlabPtr->feval(u"RoundaboutFit",args);
+    matlab::data::TypedArray<double> const result = matlabPtr->feval(u"FitRoundabout",args);
     std::vector<size_t> dimensions = result.getDimensions();
     std::vector<std::vector<int>> intvs(static_cast<int>(dimensions[0]),std::vector<int>(2));
     
@@ -993,7 +961,7 @@ SingleTripAnalyzer::~SingleTripAnalyzer()
 }
 
 // Python Bindings
-PYBIND11_MODULE(research, m){
+PYBIND11_MODULE(ALMG, m){
     py::class_<SingleTripAnalyzer>(m,"SingleTripAnalyzer")
         .def(py::init<std::vector<int> ,std::vector<int>, std::map<std::string, py::array_t<double>>, py::array_t<int>, py::array_t<double>, py::array_t<double>, py::array_t<double>, py::array_t<double>>())
         .def("addRegulatoryElementStateIdxs", &SingleTripAnalyzer::addRegulatoryElementStateIdxs)

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(research)
+project(ALMG)
 
 find_package(Matlab REQUIRED)
 find_package(Boost REQUIRED)
@@ -23,11 +23,11 @@ set(SOURCES
 # file(GLOB_RECURSE SOURCES "src/*cpp")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
 
-pybind11_add_module(research ${SOURCES})
-include_directories(research PUBLIC ${CMAKE_SOURCE_DIR}/include)
+pybind11_add_module(ALMG ${SOURCES})
+include_directories(ALMG PUBLIC ${CMAKE_SOURCE_DIR}/include)
 
-set_property(TARGET research PROPERTY POSITION_INDEPENDENT_CODE ON)
-target_link_libraries(research PUBLIC
+set_property(TARGET ALMG PROPERTY POSITION_INDEPENDENT_CODE ON)
+target_link_libraries(ALMG PUBLIC
                       lanelet2_core
                       lanelet2_io 
                       lanelet2_projection
@@ -35,9 +35,8 @@ target_link_libraries(research PUBLIC
                       lanelet2_traffic_rules
                       ${Matlab_LIBRARIES}
                       ${Boost_LIBRARIES})
-set_target_properties(research PROPERTIES
+set_target_properties(ALMG PROPERTIES
                       CXX_STANDARD 17
                       LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/python)
 
-add_subdirectory(test)
 # install(TARGETS research DESTINATION ${CMAKE_SOURCE_DIR}/python)

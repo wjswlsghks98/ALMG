@@ -59,7 +59,7 @@ classdef RoadTypeClassifier2 < handle
             xyR = obj.SingleTripFit.getParams();
             
             % Events are detected with radius less than 150m
-            EventRadiusIntvs = getIntvs(find(xyR(3,:) < 700)); % 150 ->700 by cho
+            EventRadiusIntvs = obj.getIntvs(find(xyR(3,:) < 700)); % 150 ->700 by cho
             
             % Driving Maneuver Type Label 
             % 
@@ -338,7 +338,7 @@ classdef RoadTypeClassifier2 < handle
             end
             comb = obj.possibleComb2(LKM);
             if ~isempty(comb)
-                combIntvs = getCombIntvs(comb);
+                combIntvs = obj.getCombIntvs(comb);
                 combStateIntvs = obj.getCombStateIntvs(combIntvs);
                 
                 features = zeros(length(combStateIntvs(:,1)),length(obj.Interp_Smoothed(combStateIntvs(1,1),combStateIntvs(1,2),combStateIntvs(1,3:4))));
@@ -399,7 +399,7 @@ classdef RoadTypeClassifier2 < handle
         function possi_comb = possibleComb(obj)
 
             xyR = obj.SingleTripFit.getParams();
-            EventRadiusIntvs = getIntvs(find(xyR(3,:) < 700));
+            EventRadiusIntvs = obj.getIntvs(find(xyR(3,:) < 700));
             EventRadiusIntvs = EventRadiusIntvs';
             possi_comb = cell(1,length(EventRadiusIntvs(1,:)));
 
@@ -431,7 +431,7 @@ classdef RoadTypeClassifier2 < handle
             arcs = 1:size(xyR,2);
             arcs_e = arcs(~ismember(arcs,LKM));
             if ~isempty(arcs_e)
-                EventRadiusIntvs = getIntvs(arcs_e);
+                EventRadiusIntvs = obj.getIntvs(arcs_e);
     
                 EventRadiusIntvs = EventRadiusIntvs';
                 possi_comb = cell(1,length(EventRadiusIntvs(1,:)));
@@ -683,6 +683,50 @@ classdef RoadTypeClassifier2 < handle
             features(10) = sd;
         end
 
+        function intvs = getIntvs(arr)
+        % Get intervals from indices
+            if ~isempty(arr)
+                intvs = [arr(1), arr(1)];
+                for i=2:length(arr)
+                    if arr(i) - arr(i-1) > 1
+                        intvs(end,2) = arr(i-1);
+                        intvs = [intvs; arr(i), arr(i)];
+                    end
+                end
+                intvs(end,2) = arr(end);
+            else
+                intvs = [];
+            end
+        end
+
+        function possi_comb = getCombIntvs(comb)
+            possi_comb = [];
+            for i = 1:length(comb)
+                seg = comb{i};
+                lb = seg(1,1); ub = seg(end,end);
+                seg_shape = size(seg);
+                for j = 1:seg_shape(1)
+                    row = seg(j,:);
+                    if seg_shape(2) ~= 1
+                        for k = 2:seg_shape(2)
+                            if row(k-1) < row(k)
+                                possi_comb = [possi_comb;row(k-1),row(k)-1,j,i];
+                                if row(k) == ub
+                                    possi_comb = [possi_comb;row(k),row(k),j,i];
+                                    break
+                                end
+                            else
+                                possi_comb = [possi_comb;row(k-1),ub,j,i];
+                                break
+                            end
+                        end
+                    else
+                        possi_comb = [possi_comb;lb,ub,j,i];
+                    end
+                end
+            end     
+        end
+
         %% filename reader
         function [date,tripNo] = filenameReader(filename)
             matches1 = regexp(filename,'(\d{4}-\d{2}-\d{2})-(\d{1})\.mat', 'tokens');
@@ -700,4 +744,27 @@ classdef RoadTypeClassifier2 < handle
             end
         end
     end
+end
+
+function rpy = dcm2rpy(R)
+% dcm2rpy Converts Rotation Matrix to Roll, Pitch, Yaw angles 
+% (Assumes Intrinsic Rotation whose Tait-Bryan angles are alpha, beta, gamma, about axes z-y-x) 
+% 
+% R = Rz(alpha) * Ry(beta) * Rx(gamma)
+%   = [[ca * cb, ca * sb * sg - sa * cg, ca * sb * cg + sa * sg],
+%      [sa * cb, sa * sb * sg + ca * cg, sa * sb * cg - ca * sg],
+%      [-sb    , cb * sg               , cb * cg               ]]
+% 
+% alpha (yaw) = atan2(R(2,1),R(1,1))
+% beta  (pitch) = -asin(R(3,1))
+% gamma (roll) = atan2(R(3,2),R(3,3))
+% 
+% * Due to singularity for RPY or Euler angle representation, 
+%   when plotting results, there may be jumping discontinuity
+
+    phi = atan2(R(3,2),R(3,3));
+    theta = -asin(R(3,1));
+    psi = atan2(R(2,1),R(1,1));
+
+    rpy = [phi;theta;psi];
 end

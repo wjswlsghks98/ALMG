@@ -17,9 +17,6 @@
 #include <Eigen/Dense>
 #include <lanelet2_projection/LocalCartesian.h>
 #include <lanelet2_io/Io.h>
-#include <lanelet2_modified/ArcLineString.h>
-#include <lanelet2_modified/MultiArcLineString.h>
-#include <lanelet2_modified/LaneletModified.h>
 #include <lanelet2_traffic_rules/TrafficRulesFactory.h>
 #include <lanelet2_routing/RoutingGraph.h>
 
@@ -55,9 +52,6 @@ public:
 
     // Initializing Tf_vector and St_vector
     void addRegulatoryElementStateIdxs(int i, std::vector<int> idxs, std::string reg_type);
-    
-    // Visualize regelems for debugging.
-    void visualize(void);
 
     // Main script of Single Trip Map Generation
     std::string run(void);
@@ -80,7 +74,7 @@ private:
     std::vector<RegulatoryElementPtr> RegelemList; // Pointers of regulatory elements will be integrated into maps.
     LaneletMap Map;
 
-    std::string save(const std::unique_ptr<matlab::engine::MATLABEngine>& matlabPtr, std::string arc_approx_flag);
+    std::string save(const std::unique_ptr<matlab::engine::MATLABEngine>& matlabPtr);
 
     // Non-overlapping Interval Handling Module
     void NormalHandler(std::vector<LineString3d> Tf_List, std::vector<LineString3d> St_List, 
