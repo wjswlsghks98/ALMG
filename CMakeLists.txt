@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(ALMG)
 
+find_package(mrt_cmake_modules REQUIRED)   
 find_package(Matlab REQUIRED)
 
 include_directories(${Matlab_INCLUDE_DIRS})
