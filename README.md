@@ -24,12 +24,12 @@ You have to install all of the following in order to run the main script.
 * Tested on Ubuntu 20.04 (focal)
 
 ### MATLAB
-Install MATLAB R2023a or higher with following toolboxes: [Optimization Toolbox](https://kr.mathworks.com/products/optimization.html), [Statistics and Machine Learning Toolbox](https://kr.mathworks.com/products/statistics.html), [Mapping Toolbox](https://kr.mathworks.com/products/mapping.html)
+Install MATLAB R2023a or higher with following toolboxes: [Optimization Toolbox](https://kr.mathworks.com/products/optimization.html), [Statistics and Machine Learning Toolbox](https://kr.mathworks.com/products/statistics.html), [Mapping Toolbox](https://kr.mathworks.com/products/mapping.html), [Deep Learning Toolbox](https://kr.mathworks.com/products/deep-learning.html).
 
 ### Python
 Install basic packages
 ```
-$ sudo apt-get install python3 python3-numpy python3-scipy python3-dev pybind11-dev
+sudo apt-get install python3 python3-numpy python3-scipy python3-dev pybind11-dev
 ```
 Then, install MATLAB Engine API for Python using [Python Package Index](https://pypi.org/project/matlabengine/)
 
@@ -39,21 +39,21 @@ Then, install MATLAB Engine API for Python using [Python Package Index](https://
 
 *Step 1* : Install dependencies
 ```
-$ sudo apt-get install build-essential cmake-gui
+sudo apt-get install build-essential cmake-gui
 ```
 *Step 2* : Clone the repository
 ```
-$ git clone https://github.com/wjswlsghks98/ALMG.git ALMG
+git clone https://github.com/wjswlsghks98/ALMG.git ALMG
 ```
 *Step 3* : Initialize Git Submodules
 ```
-$ cd ALMG
-$ git submodule init
-$ git submodule update
+cd ALMG
+git submodule init
+git submodule update
 ```
 *Step 4* : Create build directory
 ```
-$ mkdir build
+mkdir build
 ```
 *Step 5* : Configure build and generate Makefiles
 ```
@@ -61,7 +61,7 @@ cd build && cmake ..
 ```
 *Step 6* : Build Code
 ```
-$ make -j
+make -j
 ```
 
 > If there are errors regarding MATLAB C++ API, refer to this [link](https://kr.mathworks.com/help/matlab/calling-matlab-engine-from-cpp-programs.html?s_tid=CRUX_lftnav).
