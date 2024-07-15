@@ -40,8 +40,7 @@ Then, install MATLAB Engine API for Python using [Python Package Index](https://
 ```
 sudo apt update
 sudo apt install ros-noetic-desktop-full
-sudo apt-get install ros-noetic-rospack ros-noetic-catkin ros-noetic-mrt-cmake-modules
-sudo apt-get install libboost-dev libeigen3-dev libgeographic-dev libpugixml-dev libpython-dev libboost-python-dev python-catkin-tools
+sudo apt install ros-noetic-lanelet2
 ```
 
 *Step 1* : Install dependencies
