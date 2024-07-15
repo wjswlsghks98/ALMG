@@ -23,6 +23,7 @@ classdef RoadTypeClassifier2 < handle
             obj.fit2DCirclesSingleTrip(opt);
             obj.opt = opt;
             
+            % Fix directories for custom modification
             if ispc
                 obj.direc = 'D:/SJ_Dataset/MatlabFiles/github/Mapping/EventDetection/TrajectoryBasedDetection/';
             elseif isunix
@@ -32,6 +33,7 @@ classdef RoadTypeClassifier2 < handle
         
         %% Run 
         function eventIntvs = run(obj,flag)
+            % Fix directories for custom modification
             if ispc
                 obj.direc = 'D:/SJ_Dataset/MatlabFiles/github/Mapping/EventDetection/TrajectoryBasedDetection/';
             elseif isunix
@@ -197,8 +199,11 @@ classdef RoadTypeClassifier2 < handle
                 P(:,i) = opt.states{i}.P(1:2);
             end
             covs = repmat(reshape(5e-4*eye(2),4,1),[1,length(opt.states)]);
+
+            % fit2DCircles is not include in this Repository. 
+            % Wait for our future work to be released! 
             obj.SingleTripFit = fit2DCircles(P,covs);
-            obj.SingleTripFit.L_min = 5; % Set minimum possible arc length to be 5m
+            obj.SingleTripFit.L_min = 10; % Set minimum possible arc length to be 5m
             obj.SingleTripFit.optimize(true);
             % obj.SingleTripFit.visualize();
         end
@@ -231,6 +236,7 @@ classdef RoadTypeClassifier2 < handle
             %     delete(strcat('D:/SJ_Dataset/MatlabFiles/EventDetection/TrajectoryBasedDetection/src/Detection/IS',obj.date,num2str(obj.trip),'.csv'));
             %     disp(strcat("File 'IS",obj.date,num2str(obj.trip),".csv' already existed has been deleted"));
             % end
+
             writematrix(IS,strcat(obj.direc,'src/Detection/data/IS-',obj.opt.date,'-',num2str(obj.opt.tripNo),'.csv'));
             writematrix(EF,strcat(obj.direc,'src/Detection/data/EF-',obj.opt.date,'-',num2str(obj.opt.tripNo),'.csv'));
             writematrix(IS_,strcat(obj.direc,'src/Classification/data/IS-',obj.opt.date,'-',num2str(obj.opt.tripNo),'.csv'));
@@ -266,6 +272,8 @@ classdef RoadTypeClassifier2 < handle
                     IS_(j,:) = obj.Interp_Smoothed(itvs_(j,1),itvs_(j,2),itvs_(j,3));
                     EF_(j,:) = obj.Statistical(itvs_(j,1),itvs_(j,2),itvs_(j,3));
                 end
+                
+                % 
                 writematrix(IS,strcat(obj.direc,'src/Detection/data/IS-',obj.opt.date,'-',num2str(obj.opt.tripNo),'.csv'));
                 writematrix(EF,strcat(obj.direc,'src/Detection/data/EF-',obj.opt.date,'-',num2str(obj.opt.tripNo),'.csv'));
                 writematrix(IS_,strcat(obj.direc,'src/Classification/data/IS-',obj.opt.date,'-',num2str(obj.opt.tripNo),'.csv'));
@@ -308,12 +316,7 @@ classdef RoadTypeClassifier2 < handle
             % Step 2 : Classification of Lane Keeping Manuever and Others
             warning('off','all');
             
-            model1_path = strcat(obj.direc,'src/Detection/model_CNN');
-            % if ispc
-            %     model1_path = 'D:/SJ_Dataset/MatlabFiles/github/EventDetection/TrajectoryBasedDetection/src/Detection/model_CNN';
-            % elseif isunix
-            %     model1_path = '/mnt/hdd1/SJ_Dataset/MatlabFiles/github/EventDetection/TrajectoryBasedDetection/src/Detection/model_CNN';
-            % end
+            model1_path = '../model/train/Detection/model_CNN';
             model_CNN = importTensorFlowNetwork(model1_path,'OutputLayerType','classification','Classes',{'LKM','Event'},'Verbose',false);
             arc_idx = features(:,end);
 
@@ -348,13 +351,8 @@ classdef RoadTypeClassifier2 < handle
                 
                 section_label = features(:,end);
                 feature = features(:,1:end-2);
-                
-                model2_path = strcat(obj.direc,'src/Classification/model_CNN');
-                % if ispc
-                %     model2_path = 'D:/SJ_Dataset/MatlabFiles/github/EventDetection/TrajectoryBasedDetection/src/Classification/model_CNN';
-                % elseif isunix
-                %     model2_path = '/mnt/hdd1/SJ_Dataset/MatlabFiles/github/EventDetection/TrajectoryBasedDetection/src/Classification/model_CNN';
-                % end
+
+                model2_path = '../model/train/Classification/model_CNN';
     
                 model2_CNN = importTensorFlowNetwork(model2_path,'OutputLayerType','classification','Classes',{'RT','LT','RLC','LLC','RA'},'Verbose',false);
                 table = [];

@@ -24,13 +24,12 @@ function map = loadosm(filePath)
 %   * `map.ways.isBuilding`: a boolean.
 %
 % Originally from github repository: https://github.com/vedaldi/osm2mat
-% Modified for handling 'relations'
-% Implemented by Jinhwan Jeon, 2024
+%
+% Modified for handling 'relations': Additional implementation by Jinhwan Jeon, 2024
 
 opts.verbose = 0 ;
 
 xml = xmlread(filePath) ;
-
 map = parseRoot(opts, xml) ;
 
 % for convenience, add an explicit list of point coordinates to each way

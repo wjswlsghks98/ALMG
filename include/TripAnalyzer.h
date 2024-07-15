@@ -152,55 +152,5 @@ private:
     void addPoints2LineString(int LaneletListIdx, std::vector<Point3d> points, int lb, int ub, 
                               std::string dir, std::string options);
 
-    /**
-     * @brief Perform arc spline approximation for each linestring cluster (G0, G1 Continuity)
-     * 
-     * @param matlabPtr std::unique_ptr for matlab engine
-     */
-    void arcSplineApprox(const std::unique_ptr<matlab::engine::MATLABEngine>& matlabPtr);
-
-    /**
-     * @brief Visualization function after arc spline approximation of all lanelets
-     * For detailed information of each parameters, refer to MultiLineStringFit.m file or SingleTripAnalyzer::arcSplineApprox function.
-     * 
-     * @param full_endNodes endNodes for all linestring clusters
-     * @param full_normNodes normNodes for all linestring clusters
-     * @param full_midNodes midNodes for all linestring clusters
-     * @param full_endNodeTrackers endNodeTrackers for all linestring clusters
-     * @param full_normNodeTrackers normNodeTrackers for all linestring clusters
-     * @param full_midNodeTrackers midNodeTrackers for all linestring clusters
-     */
-    void visualize(const std::vector<std::vector<Eigen::Vector3d>>& full_endNodes,
-                   const std::vector<std::vector<Eigen::Vector3d>>& full_normNodes,
-                   const std::vector<std::vector<Eigen::Vector3d>>& full_midNodes,
-                   const std::vector<std::vector<std::pair<int,int>>>& full_endNodeTrackers,
-                   const std::vector<std::vector<std::pair<int,int>>>& full_normNodeTrackers,
-                   const std::vector<std::vector<std::pair<int,int>>>& full_midNodeTrackers);
-
-    /**
-     * @brief Update the data points of linestring after arc spline approximation
-     * 
-     * @param LineStringCluster Id container for linestring clusters
-     * @param full_endNodes endNodes for all linestring clusters
-     * @param full_normNodes normNodes for all linestring clusters
-     * @param full_midNodes midNodes for all linestring clusters
-     * @param full_endNodeTrackers endNodeTrackers for all linestring clusters
-     * @param full_normNodeTrackers normNodeTrackers for all linestring clusters
-     * @param full_midNodeTrackers midNodeTrackers for all linestring clusters 
-     */
-    void updateLineStrings(const std::vector<std::vector<Id>>& LineStringCluster,
-                           const std::vector<std::vector<Eigen::Vector3d>>& full_endNodes,
-                           const std::vector<std::vector<Eigen::Vector3d>>& full_normNodes,
-                           const std::vector<std::vector<Eigen::Vector3d>>& full_midNodes,
-                           const std::vector<std::vector<std::pair<int,int>>>& full_endNodeTrackers,
-                           const std::vector<std::vector<std::pair<int,int>>>& full_normNodeTrackers,
-                           const std::vector<std::vector<std::pair<int,int>>>& full_midNodeTrackers);
-};
-
-class MultiTripAnalyzer
-{
-/*
-To be implemented in the future. 
-
-*/
+    
 };
