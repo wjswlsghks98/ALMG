@@ -118,4 +118,17 @@ and the following paper of [Lanelet2](https://ieeexplore.ieee.org/document/85699
   Url={http://www.mrt.kit.edu/z/publ/download/2018/Poggenhans2018Lanelet2.pdf}
 }
 ```
+and also the work of [Tsintotas et al.](https://ieeexplore.ieee.org/abstract/document/8461146) for Loop Closure Detection.
 
+```
+@inproceedings{tsintotas2018places,
+  title={Assigning Visual Words to Places for Loop Closure Detection},  
+  author={K. A. Tsintotas and L. Bampis and A. Gasteratos},   
+  booktitle={IEEE International Conference on Robotics and Automation (ICRA)},
+  pages={5979 - 5985},
+  year={2018},   
+  month={May},
+  address={Brisbane, QLD, Australia},
+  doi={10.1109/ICRA.2018.8461146} 
+}
+```
