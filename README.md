@@ -36,6 +36,13 @@ Then, install MATLAB Engine API for Python using [Python Package Index](https://
 > Architecture and training data of our implementation can be found in ```ALMG/model``` folder.
 
 ### C++ (Overall)
+*Step 0* : Install ROS of appropriate version and follow manual installation guide provided in in Lanelet2
+```
+sudo apt update
+sudo apt install ros-noetic-desktop-full
+sudo apt-get install ros-noetic-rospack ros-noetic-catkin ros-noetic-mrt-cmake-modules
+sudo apt-get install libboost-dev libeigen3-dev libgeographic-dev libpugixml-dev libpython-dev libboost-python-dev python-catkin-tools
+```
 
 *Step 1* : Install dependencies
 ```
