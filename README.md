@@ -24,7 +24,7 @@ You have to install all of the following in order to run the main script.
 * Tested on Ubuntu 20.04 (focal), MATLAB R2023a, Python 3.8.10
 
 ### MATLAB
-Install MATLAB R2023a with following toolboxes: [Optimization Toolbox](https://kr.mathworks.com/products/optimization.html), [Statistics and Machine Learning Toolbox](https://kr.mathworks.com/products/statistics.html), [Mapping Toolbox](https://kr.mathworks.com/products/mapping.html), [Deep Learning Toolbox](https://kr.mathworks.com/products/deep-learning.html).
+Install MATLAB R2023a with following toolboxes: [Optimization Toolbox](https://kr.mathworks.com/products/optimization.html), [Statistics and Machine Learning Toolbox](https://kr.mathworks.com/products/statistics.html), [Mapping Toolbox](https://kr.mathworks.com/products/mapping.html), [Deep Learning Toolbox](https://kr.mathworks.com/products/deep-learning.html), [Signal Processing Toolbox](https://kr.mathworks.com/products/signal.html).
 
 > Be careful not to download R2024a or above. MATLAB Engine API for Python is not supported for python 3.8 for these [versions](https://kr.mathworks.com/support/requirements/python-compatibility.html).
 
